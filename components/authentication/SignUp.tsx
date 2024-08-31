@@ -9,7 +9,7 @@ export const SignUp = () => {
         acc[key] = value;
         return acc;
       },
-      {}
+      {},
     );
 
     const response = await fetch(
@@ -20,7 +20,7 @@ export const SignUp = () => {
         headers: {
           "Content-Type": "application/json",
         },
-      }
+      },
     );
   };
 
