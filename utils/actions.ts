@@ -37,18 +37,18 @@ export const searchSymbols = async (query) => {
   return handleFetch(url);
 };
 
-export const fetchStockDetails = async (stockSymbol) => {
-  const url = `${FINNHUB_BASE_PATH}/stock/profile2?symbol=${stockSymbol}&token=${process.env.FINNHUB_API_KEY}`;
+export const fetchStockDetails = async (symbol) => {
+  const url = `${FINNHUB_BASE_PATH}/stock/profile2?symbol=${symbol}&token=${process.env.FINNHUB_API_KEY}`;
   return handleFetch(url);
 };
 
-export const fetchQuote = async (stockSymbol) => {
-  const url = `${FINNHUB_BASE_PATH}/quote?symbol=${stockSymbol}&token=${process.env.FINNHUB_API_KEY}`;
+export const fetchQuote = async (symbol) => {
+  const url = `${FINNHUB_BASE_PATH}/quote?symbol=${symbol}&token=${process.env.FINNHUB_API_KEY}`;
   return handleFetch(url);
 };
 
-export const fetchTimeSeriesData = async ({ stockSymbol, resolution }) => {
-  const url = `${ALPHAVANTAGE_BASE_PATH}/query?function=${RESOLUTION_VS_TIME_SERIES_DATA_API_FUNCTION[resolution]}&symbol=${stockSymbol}&apikey=${process.env.ALPHAVANTAGE_API_KEY}`;
+export const fetchTimeSeriesData = async ({ symbol, resolution }) => {
+  const url = `${ALPHAVANTAGE_BASE_PATH}/query?function=${RESOLUTION_VS_TIME_SERIES_DATA_API_FUNCTION[resolution]}&symbol=${symbol}&apikey=${process.env.ALPHAVANTAGE_API_KEY}`;
   const data = await handleFetch(url);
 
   const timeSeriesData = data[RESOLUTION_VS_DATA_KEY[resolution]];

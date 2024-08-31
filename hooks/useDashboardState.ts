@@ -55,7 +55,7 @@ export const useDashboardState = () => {
   const handleResolutionChange = (currResolution) => {
     setResolution(currResolution);
     updateTimeSeriesData({
-      symbol,
+      currSymbol: symbol,
       currResolution: currResolution,
     });
   };
