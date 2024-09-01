@@ -12,7 +12,6 @@ import {
   fetchTimeSeriesData,
 } from "@/utils/actions";
 import { useDashboardState } from "@/hooks/useDashboardState";
-import { useUser } from "@/hooks/useUser";
 
 export default function Home() {
   const {
@@ -25,20 +24,16 @@ export default function Home() {
     onResolutionChange,
   } = useDashboardState();
 
-  const { user, setUser } = useUser();
-
   const stockProviderValue = useMemo(
     () => ({ symbol, onSymbolChange }),
     [symbol, onSymbolChange]
   );
 
-  console.log("spi: ", user);
-
-  return user ? (
+  return (
     <StockContext.Provider value={stockProviderValue}>
       <div className="h-screen grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 grid-rows-8 md:grid-rows-7 xl:grid-rows-5 auto-rows-fr gap-6 p-10 bg-neutral-100">
         <div className="col-span-1 md:col-span-2 xl:col-span-3 row-span-1 flex justify-start items-center">
-          <Header name={details.name} user={user} />
+          <Header />
         </div>
         <div className="md:col-span-2 row-span-4">
           <Chart
@@ -54,8 +49,7 @@ export default function Home() {
             change={priceOverview.d}
             changePercent={priceOverview.dp}
             currency={details.currency}
-            user={user}
-            setUser={setUser}
+            name={details.name}
           />
         </div>
         <div className="row-span-2 xl:row-span-3">
@@ -63,5 +57,5 @@ export default function Home() {
         </div>
       </div>
     </StockContext.Provider>
-  ) : null;
+  );
 }

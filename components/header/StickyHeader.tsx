@@ -1,6 +1,6 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useContext } from "react";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { usePathname, useRouter } from "next/navigation";
 import {
   CurrencyDollarIcon,
   UserIcon,
@@ -9,11 +9,22 @@ import {
   ChartBarIcon,
   ChartPieIcon,
 } from "@heroicons/react/24/outline";
+import UserContext from "@/context/UserContext";
 
-export const StickyHeader = ({ userName, userEmail, balance }) => {
-  // const router = useRouter();
-  // const isPortfolioPage = router.pathname === "/portfolio";
-  const isPortfolioPage = true;
+export const StickyHeader = () => {
+  const { user } = useContext(UserContext);
+  const { push } = useRouter();
+  const pathname = usePathname();
+
+  const handleLogOut = async () => {
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/logout`, {
+      credentials: "include",
+    }).then(push("/"));
+  };
+
+  const isExplorePage = pathname === "/dashboard";
+
+  const { balance, name, email } = user ?? {};
 
   return (
     <header className="sticky top-0 z-10 bg-white shadow-md py-2">
@@ -29,36 +40,39 @@ export const StickyHeader = ({ userName, userEmail, balance }) => {
             <div className="flex items-center bg-green-100 px-3 py-1 rounded-md">
               <CurrencyDollarIcon className="h-5 w-5 text-green-500 mr-1" />
               <span className="font-semibold text-green-700">
-                ${balance.toFixed(2)}
+                ${balance?.toFixed(2)}
               </span>
             </div>
             <div className="flex items-center space-x-2">
               <UserIcon className="h-5 w-5 text-gray-500" />
               <div className="flex flex-col">
                 <span className="font-semibold text-sm text-gray-700">
-                  {userName}
+                  {name}
                 </span>
-                <span className="text-xs text-gray-500">{userEmail}</span>
+                <span className="text-xs text-gray-500">{email}</span>
               </div>
             </div>
-            {isPortfolioPage ? (
+            {isExplorePage ? (
               <Link
-                href="/explore"
-                className="px-4 py-2 rounded-md text-purple-600 border border-purple-200 hover:border-purple-400 transition duration-200 ease-in-out"
-              >
-                <GlobeAltIcon className="h-5 w-5 inline-block mr-1" />
-                Explore
-              </Link>
-            ) : (
-              <Link
-                href="/portfolio"
+                href="/dashboard/portfolio"
                 className="px-4 py-2 rounded-md text-purple-600 border border-purple-200 hover:border-purple-400 transition duration-200 ease-in-out"
               >
                 <ChartBarIcon className="h-5 w-5 inline-block mr-1" />
                 Portfolio
               </Link>
+            ) : (
+              <Link
+                href="/dashboard"
+                className="px-4 py-2 rounded-md text-purple-600 border border-purple-200 hover:border-purple-400 transition duration-200 ease-in-out"
+              >
+                <GlobeAltIcon className="h-5 w-5 inline-block mr-1" />
+                Explore
+              </Link>
             )}
-            <button className="p-2 rounded-md text-gray-600 hover:bg-gray-100 transition duration-200 ease-in-out">
+            <button
+              className="p-2 rounded-md text-gray-600 hover:bg-gray-100 transition duration-200 ease-in-out"
+              onClick={handleLogOut}
+            >
               <ArrowRightOnRectangleIcon className="h-5 w-5" />
             </button>
           </div>

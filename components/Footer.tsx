@@ -1,22 +1,13 @@
 import React, { useState, useMemo } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import {
-  CurrencyDollarIcon,
-  UserIcon,
-  ArrowRightOnRectangleIcon,
-  GlobeAltIcon,
-  ChartBarIcon,
-  ChartPieIcon,
-} from "@heroicons/react/24/outline";
 
 export const Footer = () => (
-  <footer className="fixed bottom-4 right-4">
+  <footer className="fixed bottom-0 right-4">
     <a
       href="https://github.com/shakib1729"
       target="_blank"
       rel="noopener noreferrer"
-      className="bg-gray-800 text-white p-2 rounded-full hover:bg-gray-700 transition duration-200 ease-in-out"
     >
       <svg
         className="h-6 w-6"

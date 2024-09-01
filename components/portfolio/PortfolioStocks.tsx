@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useContext } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import {
@@ -9,16 +9,17 @@ import {
   ChartBarIcon,
   ChartPieIcon,
 } from "@heroicons/react/24/outline";
-import { StickyHeader } from "@/components/header/StickyHeader";
+
 import { PortfolioSummary } from "@/components/portfolio/PortfolioSummary";
 import { StockTable } from "@/components/portfolio/StockTable";
 import { SellModal } from "@/components/portfolio/SellModal";
-import { Footer } from "@/components/Footer";
+import UserContext from "@/context/UserContext";
 
 // For each stock:
 // symbol, quantity, investedAmount, pricePerUnit
 
-export const PortfolioStocks = ({ stocks, balance, setUser }) => {
+export const PortfolioStocks = ({ stocks, balance }) => {
+  const { setUser } = useContext(UserContext);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedStock, setSelectedStock] = useState(null);
 
@@ -86,12 +87,7 @@ export const PortfolioStocks = ({ stocks, balance, setUser }) => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-100/70 to-pink-100/70">
-      <StickyHeader
-        userName="John Doe"
-        userEmail="john@example.com"
-        balance={10000}
-      />
+    <>
       <div className="py-8 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto space-y-8">
           <PortfolioSummary
@@ -101,7 +97,7 @@ export const PortfolioStocks = ({ stocks, balance, setUser }) => {
           <StockTable stocks={stocks} onSell={handleSell} />
         </div>
       </div>
-      <Footer />
+
       {selectedStock && (
         <SellModal
           isOpen={isModalOpen}
@@ -122,6 +118,6 @@ export const PortfolioStocks = ({ stocks, balance, setUser }) => {
           }
         }
       `}</style>
-    </div>
+    </>
   );
 };
