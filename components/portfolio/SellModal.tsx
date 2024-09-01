@@ -1,14 +1,5 @@
-import React, { useState, useMemo } from "react";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import {
-  CurrencyDollarIcon,
-  UserIcon,
-  ArrowRightOnRectangleIcon,
-  GlobeAltIcon,
-  ChartBarIcon,
-  ChartPieIcon,
-} from "@heroicons/react/24/outline";
+// Libs
+import { useState } from "react";
 
 export const SellModal = ({ isOpen, onClose, stock, onSubmit }) => {
   const [quantity, setQuantity] = useState("");
@@ -45,7 +36,7 @@ export const SellModal = ({ isOpen, onClose, stock, onSubmit }) => {
               onChange={(e) => {
                 const value = Math.max(
                   0,
-                  Math.min(stock.quantity, parseFloat(e.target.value) || 0)
+                  Math.min(stock.quantity, parseFloat(e.target.value) || 0),
                 );
                 setQuantity(value.toString());
               }}

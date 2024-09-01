@@ -1,6 +1,6 @@
 "use client";
 
-export const SignIn = () => {
+export const Register = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
@@ -9,24 +9,31 @@ export const SignIn = () => {
         acc[key] = value;
         return acc;
       },
-      {}
+      {},
     );
 
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/auth/authenticate`,
+      `${process.env.NEXT_PUBLIC_API_URL}/auth/register`,
       {
         method: "POST",
         body: JSON.stringify(formValues),
         headers: {
           "Content-Type": "application/json",
         },
-        credentials: "include",
-      }
+      },
     );
   };
 
   return (
     <form onSubmit={handleSubmit}>
+      <div>
+        <label htmlFor="firstName">firstName</label>
+        <input id="firstName" name="firstName" placeholder="Name" />
+      </div>
+      <div>
+        <label htmlFor="lastName">lastName</label>
+        <input id="lastName" name="lastName" placeholder="Name" />
+      </div>
       <div>
         <label htmlFor="email">Email</label>
         <input id="email" name="email" type="email" placeholder="Email" />
@@ -35,7 +42,7 @@ export const SignIn = () => {
         <label htmlFor="password">Password</label>
         <input id="password" name="password" type="password" />
       </div>
-      <button type="submit">Sign In</button>
+      <button type="submit">Sign Up</button>
     </form>
   );
 };

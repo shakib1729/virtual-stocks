@@ -1,16 +1,14 @@
-"use client";
+// Libs
+import { useState, useEffect } from "react";
 
-import { useState, useEffect, useContext } from "react";
+// Hooks
+import { useUser } from "@/hooks/useUser";
 
-import {
-  fetchQuote,
-  fetchStockDetails,
-  fetchTimeSeriesData,
-} from "@/utils/actions";
-import UserContext from "@/context/UserContext";
+// Utils
+import { fetchQuote } from "@/utils/actions";
 
 export const usePortfolioStocks = () => {
-  const { user } = useContext(UserContext);
+  const { user } = useUser();
   const [portfolioStocks, setPortfolioStocks] = useState(null);
 
   const stocks = user?.stocks;
@@ -25,7 +23,7 @@ export const usePortfolioStocks = () => {
         stocks?.map((stock, index) => ({
           ...stock,
           pricePerUnit: +quotes[index].c,
-        }))
+        })),
       );
     };
 

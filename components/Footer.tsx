@@ -1,7 +1,3 @@
-import React, { useState, useMemo } from "react";
-import Link from "next/link";
-import { useRouter } from "next/router";
-
 export const Footer = () => (
   <footer className="fixed bottom-0 right-4">
     <a

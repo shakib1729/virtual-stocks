@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useContext } from "react";
+// Libs
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import {
@@ -9,10 +9,12 @@ import {
   ChartBarIcon,
   ChartPieIcon,
 } from "@heroicons/react/24/outline";
-import UserContext from "@/context/UserContext";
+
+// Hooks
+import { useUser } from "@/hooks/useUser";
 
 export const StickyHeader = () => {
-  const { user } = useContext(UserContext);
+  const { user } = useUser();
   const { push } = useRouter();
   const pathname = usePathname();
 

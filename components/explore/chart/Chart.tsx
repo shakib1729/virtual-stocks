@@ -1,7 +1,5 @@
-"use client";
-
+// Libs
 import { useMemo, useState } from "react";
-import { Card } from "../Card";
 import {
   Area,
   AreaChart,
@@ -10,7 +8,12 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { ChartFilter } from "@/components/chart/ChartFilter";
+
+// Components
+import { Card } from "@/components/Card";
+import { ChartFilter } from "@/components/explore/chart/ChartFilter";
+
+// Constants
 import { RESOLUTIONS } from "@/constants/resolutions";
 
 export const Chart = ({

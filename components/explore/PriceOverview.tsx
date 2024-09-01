@@ -1,6 +1,8 @@
-import React, { useState, useMemo, useContext } from "react";
-import { Card } from "./Card";
-import UserContext from "@/context/UserContext";
+// Components
+import { Card } from "@/components/Card";
+
+// Hooks
+import { useUser } from "@/hooks/useUser";
 
 export const PriceOverview = ({
   symbol,
@@ -10,7 +12,7 @@ export const PriceOverview = ({
   currency,
   name,
 }) => {
-  const { user, setUser } = useContext(UserContext);
+  const { user, setUser } = useUser();
 
   const handlePurchase = async (event) => {
     event.preventDefault();
@@ -20,14 +22,14 @@ export const PriceOverview = ({
         acc[key] = value;
         return acc;
       },
-      {}
+      {},
     );
 
     const quantity = +(formValues.quantity ?? 0);
     const cost = quantity * price;
 
     const stockWithQuantity = user.stocks?.find(
-      (stock) => stock.symbol === symbol
+      (stock) => stock.symbol === symbol,
     ) ?? { symbol, quantity: 0, investedAmount: 0 };
 
     stockWithQuantity.quantity += quantity;
@@ -51,7 +53,7 @@ export const PriceOverview = ({
             "Content-Type": "application/json",
           },
           credentials: "include",
-        }
+        },
       );
 
       setUser((prevUser) => ({ ...prevUser, ...payload }));

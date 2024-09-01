@@ -1,15 +1,3 @@
-import React, { useState, useMemo } from "react";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import {
-  CurrencyDollarIcon,
-  UserIcon,
-  ArrowRightOnRectangleIcon,
-  GlobeAltIcon,
-  ChartBarIcon,
-  ChartPieIcon,
-} from "@heroicons/react/24/outline";
-
 export const PortfolioSummary = ({ totalInvested, currentValue }) => {
   const overallProfitLoss = currentValue - totalInvested;
   const overallProfitLossPercentage = (overallProfitLoss / totalInvested) * 100;

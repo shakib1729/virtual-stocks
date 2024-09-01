@@ -1,4 +1,7 @@
+// Libs
 import { useContext } from "react";
+
+// Contexts
 import StockContext from "@/context/StockContext";
 
 export const SearchResults = ({ results, setSearchResults }) => {

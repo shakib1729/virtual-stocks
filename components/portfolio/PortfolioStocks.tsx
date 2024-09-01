@@ -1,25 +1,19 @@
-import React, { useState, useMemo, useContext } from "react";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import {
-  CurrencyDollarIcon,
-  UserIcon,
-  ArrowRightOnRectangleIcon,
-  GlobeAltIcon,
-  ChartBarIcon,
-  ChartPieIcon,
-} from "@heroicons/react/24/outline";
+// Libs
+import { useState, useMemo } from "react";
 
+// Components
 import { PortfolioSummary } from "@/components/portfolio/PortfolioSummary";
 import { StockTable } from "@/components/portfolio/StockTable";
 import { SellModal } from "@/components/portfolio/SellModal";
-import UserContext from "@/context/UserContext";
+
+// Hooks
+import { useUser } from "@/hooks/useUser";
 
 // For each stock:
 // symbol, quantity, investedAmount, pricePerUnit
 
 export const PortfolioStocks = ({ stocks, balance }) => {
-  const { setUser } = useContext(UserContext);
+  const { setUser } = useUser();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedStock, setSelectedStock] = useState(null);
 
@@ -37,7 +31,7 @@ export const PortfolioStocks = ({ stocks, balance }) => {
       {
         totalInvested: 0,
         currentValue: 0,
-      }
+      },
     );
   }, [stocks]);
 
@@ -67,22 +61,19 @@ export const PortfolioStocks = ({ stocks, balance }) => {
     };
 
     try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/updateStocksAndBalance`,
-        {
-          method: "POST",
-          body: JSON.stringify(payload),
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
-        }
-      );
+      await fetch(`${process.env.NEXT_PUBLIC_API_URL}/updateStocksAndBalance`, {
+        method: "POST",
+        body: JSON.stringify(payload),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      });
 
       setUser((prevUser) => ({ ...prevUser, ...payload }));
       setIsModalOpen(false);
-    } catch (e) {
-      console.error("An error occuring during sale!", e);
+    } catch (error) {
+      console.error("An error occuring during sale!", error);
     }
   };
 

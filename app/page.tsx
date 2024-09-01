@@ -1,13 +1,11 @@
-import { SignUp } from "@/components/authentication/SignUp";
-import { SignIn } from "@/components/authentication/SignIn";
-import { Dummy } from "@/components/authentication/Dummy";
+import { Register } from "@/components/authentication/Register";
+import { LogIn } from "@/components/authentication/LogIn";
 
 export default function Home() {
   return (
     <div className="flex gap-3">
-      <SignUp />
-      <SignIn />
-      <Dummy />
+      <Register />
+      <LogIn />
     </div>
   );
 }

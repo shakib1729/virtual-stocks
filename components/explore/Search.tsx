@@ -1,8 +1,11 @@
-"use client";
-
+// Libs
 import { useState } from "react";
+
+// Components
 import { XCircleIcon, MagnifyingGlassIcon } from "@heroicons/react/24/solid";
-import { SearchResults } from "@/components/header/SearchResults";
+import { SearchResults } from "@/components/explore/SearchResults";
+
+// Utils
 import { searchSymbols } from "@/utils/actions";
 
 export const Search = () => {

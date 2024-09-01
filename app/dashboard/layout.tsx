@@ -1,9 +1,14 @@
 "use client";
 
+// Libs
 import { useState, useEffect, useMemo } from "react";
-import { StickyHeader } from "@/components/header/StickyHeader";
-import UserContext from "@/context/UserContext";
+
+// Components
+import { StickyHeader } from "@/components/StickyHeader";
 import { Footer } from "@/components/Footer";
+
+// Contexts
+import UserContext from "@/context/UserContext";
 
 export default function Layout({ children }) {
   const [user, setUser] = useState(null);

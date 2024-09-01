@@ -1,30 +1,15 @@
 "use client";
-import React, { useState, useMemo, useContext } from "react";
 
-import Header from "@/components/header";
-import { PriceOverview } from "@/components/PriceOverview";
-import Chart from "@/components/chart";
-import StockContext from "@/context/StockContext";
-
-import { Details } from "@/components/Details";
+// Components
 import { PortfolioStocks } from "@/components/portfolio/PortfolioStocks";
-import {
-  fetchQuote,
-  fetchStockDetails,
-  fetchTimeSeriesData,
-} from "@/utils/actions";
-import { useDashboardState } from "@/hooks/useDashboardState";
-import UserContext from "@/context/UserContext";
 
+// Hooks
+import { useUser } from "@/hooks/useUser";
 import { usePortfolioStocks } from "@/hooks/usePortfolioStocks";
 
 export default function Home() {
-  const { user } = useContext(UserContext);
-
+  const { user } = useUser();
   const portfolioStocks = usePortfolioStocks();
-
-  console.log("spi portfolioStocks: ", portfolioStocks);
-  // fetch the pricePerUnit for each of the stock in user.stocks
 
   return portfolioStocks && user ? (
     <PortfolioStocks stocks={portfolioStocks} balance={user.balance} />

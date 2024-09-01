@@ -1,4 +1,7 @@
-import { useState, useEffect } from "react";
+// Libs
+import { useState } from "react";
+
+// Utils
 import {
   fetchQuote,
   fetchStockDetails,

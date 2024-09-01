@@ -1,4 +1,5 @@
-import { Card } from "./Card";
+// Components
+import { Card } from "@/components/Card";
 
 const DETAILS_ID_VS_LABEL = {
   name: "Name",
