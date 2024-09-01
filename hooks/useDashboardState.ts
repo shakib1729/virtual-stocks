@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   fetchQuote,
   fetchStockDetails,
@@ -62,11 +62,11 @@ export const useDashboardState = () => {
 
   return {
     symbol,
-    onSymbolChange: handleSymbolChange,
-    details,
     timeSeriesData,
-    priceOverview,
-    onResolutionChange: handleResolutionChange,
     resolution,
+    priceOverview,
+    details,
+    onSymbolChange: handleSymbolChange,
+    onResolutionChange: handleResolutionChange,
   };
 };
