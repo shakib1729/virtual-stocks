@@ -1,1 +1,1 @@
-export const RESOLUTIONS = ["Daily", "Weekly", "Monthly"];
+export const RESOLUTIONS = ["Daily", "Weekly", "Monthly"] as const;

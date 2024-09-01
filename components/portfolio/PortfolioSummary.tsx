@@ -1,4 +1,23 @@
-export const PortfolioSummary = ({ totalInvested, currentValue }) => {
+const SummaryItem = ({
+  title,
+  value,
+  className,
+}: {
+  title: string;
+  value: string;
+  className?: string;
+}) => (
+  <div
+    className={`bg-white bg-opacity-20 rounded-xl p-4 backdrop-filter backdrop-blur-sm ${className}`}
+  >
+    <p className="text-sm font-medium mb-1">{title}</p>
+    <p className="text-2xl font-bold">${value}</p>
+  </div>
+);
+
+type Props = { totalInvested: number; currentValue: number };
+
+export const PortfolioSummary = ({ totalInvested, currentValue }: Props) => {
   const overallProfitLoss = currentValue - totalInvested;
   const overallProfitLossPercentage = (overallProfitLoss / totalInvested) * 100;
 
@@ -8,23 +27,13 @@ export const PortfolioSummary = ({ totalInvested, currentValue }) => {
         Your Stock Portfolio
       </h1>
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 text-center">
-        <div className="bg-white bg-opacity-20 rounded-xl p-4 backdrop-filter backdrop-blur-sm">
-          <p className="text-sm font-medium mb-1">Total Invested</p>
-          <p className="text-2xl font-bold">${totalInvested.toFixed(2)}</p>
-        </div>
-        <div className="bg-white bg-opacity-20 rounded-xl p-4 backdrop-filter backdrop-blur-sm">
-          <p className="text-sm font-medium mb-1">Current Value</p>
-          <p className="text-2xl font-bold">${currentValue.toFixed(2)}</p>
-        </div>
-        <div
-          className={`bg-white bg-opacity-20 rounded-xl p-4 backdrop-filter backdrop-blur-sm ${overallProfitLoss >= 0 ? "text-green-300" : "text-red-200"}`}
-        >
-          <p className="text-sm font-medium mb-1">Overall Profit/Loss</p>
-          <p className="text-2xl font-bold">
-            ${overallProfitLoss.toFixed(2)} (
-            {overallProfitLossPercentage.toFixed(2)}%)
-          </p>
-        </div>
+        <SummaryItem title="Total Invested" value={totalInvested.toFixed(2)} />
+        <SummaryItem title="Current Value" value={currentValue.toFixed(2)} />
+        <SummaryItem
+          title="Overall Profit/Loss"
+          value={`${overallProfitLoss.toFixed(2)} (${overallProfitLossPercentage.toFixed(2)}%)`}
+          className={overallProfitLoss >= 0 ? "text-green-300" : "text-red-200"}
+        />
       </div>
     </div>
   );

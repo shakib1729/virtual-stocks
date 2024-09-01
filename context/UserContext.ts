@@ -1,5 +1,11 @@
-import { createContext } from "react";
+import { createContext, Dispatch, SetStateAction } from "react";
+import { User } from "@/types";
 
-const UserContext = createContext();
+type UserContextValue = {
+  user?: User;
+  setUser?: Dispatch<SetStateAction<User | undefined>>;
+};
+
+const UserContext = createContext<UserContextValue>({});
 
 export default UserContext;

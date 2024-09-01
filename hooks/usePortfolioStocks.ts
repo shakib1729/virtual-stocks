@@ -6,10 +6,13 @@ import { useUser } from "@/hooks/useUser";
 
 // Utils
 import { fetchQuote } from "@/utils/actions";
+import { StockWithPrice } from "@/types";
 
 export const usePortfolioStocks = () => {
   const { user } = useUser();
-  const [portfolioStocks, setPortfolioStocks] = useState(null);
+  const [portfolioStocks, setPortfolioStocks] = useState<
+    StockWithPrice[] | undefined
+  >();
 
   const stocks = user?.stocks;
 

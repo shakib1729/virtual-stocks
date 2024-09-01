@@ -1,4 +1,6 @@
-export const ChartFilter = ({ text, isActive, onClick }) => {
+type Props = { text: string; isActive: boolean; onClick: () => void };
+
+export const ChartFilter = ({ text, isActive, onClick }: Props) => {
   return (
     <button
       onClick={onClick}

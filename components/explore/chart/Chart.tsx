@@ -1,5 +1,4 @@
 // Libs
-import { useMemo, useState } from "react";
 import {
   Area,
   AreaChart,
@@ -15,12 +14,19 @@ import { ChartFilter } from "@/components/explore/chart/ChartFilter";
 
 // Constants
 import { RESOLUTIONS } from "@/constants/resolutions";
+import { Resolution, TimeSeriesData } from "@/types/stockData";
+
+type Props = {
+  timeSeriesData?: TimeSeriesData;
+  resolution: Resolution;
+  handleResolutionChange: (resolution: Resolution) => void;
+};
 
 export const Chart = ({
   timeSeriesData,
   resolution,
   handleResolutionChange,
-}) => {
+}: Props) => {
   return (
     <Card>
       <ul className="flex absolute top-2 right-2 z-40">

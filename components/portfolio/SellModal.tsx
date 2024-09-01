@@ -1,8 +1,18 @@
 // Libs
 import { useState } from "react";
 
-export const SellModal = ({ isOpen, onClose, stock, onSubmit }) => {
-  const [quantity, setQuantity] = useState("");
+// Types
+import type { StockWithPrice } from "@/types";
+
+type Props = {
+  isOpen: boolean;
+  onClose: () => void;
+  stock: StockWithPrice;
+  onSubmit: (quantity: number) => void;
+};
+
+export const SellModal = ({ isOpen, onClose, stock, onSubmit }: Props) => {
+  const [quantity, setQuantity] = useState<string>("");
 
   if (!isOpen) return null;
 

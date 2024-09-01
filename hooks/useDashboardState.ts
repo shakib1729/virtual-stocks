@@ -7,35 +7,51 @@ import {
   fetchStockDetails,
   fetchTimeSeriesData,
 } from "@/utils/actions";
+import {
+  CompanyDetails,
+  PriceOverview,
+  Resolution,
+  TimeSeriesData,
+} from "@/types/stockData";
 
 export const useDashboardState = () => {
-  const [symbol, setSymbol] = useState("FB");
-  const [timeSeriesData, setTimeSeriesData] = useState([]);
-  const [priceOverview, setPriceOverview] = useState({});
-  const [details, setDetails] = useState({});
-  const [resolution, setResolution] = useState("Daily");
+  const [symbol, setSymbol] = useState<string>("");
+  const [timeSeriesData, setTimeSeriesData] = useState<
+    TimeSeriesData | undefined
+  >();
+  const [priceOverview, setPriceOverview] = useState<
+    PriceOverview | undefined
+  >();
+  const [details, setDetails] = useState<CompanyDetails | undefined>();
+  const [resolution, setResolution] = useState<Resolution>("Daily");
 
-  const updateDetails = async (currSymbol) => {
+  const updateDetails = async (currSymbol: string) => {
     try {
       const result = await fetchStockDetails(currSymbol);
       setDetails(result);
     } catch (error) {
-      setDetails({});
+      setDetails(undefined);
       console.error(error);
     }
   };
 
-  const updatePriceOverview = async (currSymbol) => {
+  const updatePriceOverview = async (currSymbol: string) => {
     try {
       const result = await fetchQuote(currSymbol);
       setPriceOverview(result);
     } catch (error) {
-      setPriceOverview({});
+      setPriceOverview(undefined);
       console.error(error);
     }
   };
 
-  const updateTimeSeriesData = async ({ currSymbol, currResolution }) => {
+  const updateTimeSeriesData = async ({
+    currSymbol,
+    currResolution,
+  }: {
+    currSymbol: string;
+    currResolution: Resolution;
+  }) => {
     try {
       const result = await fetchTimeSeriesData({
         symbol: currSymbol,
@@ -48,14 +64,14 @@ export const useDashboardState = () => {
     }
   };
 
-  const handleSymbolChange = (currSymbol) => {
+  const handleSymbolChange = (currSymbol: string) => {
     setSymbol(currSymbol);
     updateDetails(currSymbol);
     updatePriceOverview(currSymbol);
     updateTimeSeriesData({ currSymbol, currResolution: resolution });
   };
 
-  const handleResolutionChange = (currResolution) => {
+  const handleResolutionChange = (currResolution: Resolution) => {
     setResolution(currResolution);
     updateTimeSeriesData({
       currSymbol: symbol,

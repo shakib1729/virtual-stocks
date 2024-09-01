@@ -9,46 +9,55 @@ import { SellModal } from "@/components/portfolio/SellModal";
 // Hooks
 import { useUser } from "@/hooks/useUser";
 
-// For each stock:
-// symbol, quantity, investedAmount, pricePerUnit
+// Types
+import type { StockWithPrice, User } from "@/types";
 
-export const PortfolioStocks = ({ stocks, balance }) => {
+type Props = {
+  stocks?: StockWithPrice[];
+  balance?: number;
+};
+
+export const StocksPortfolio = ({ stocks, balance }: Props) => {
   const { setUser } = useUser();
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedStock, setSelectedStock] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [selectedStock, setSelectedStock] = useState<
+    StockWithPrice | undefined
+  >();
 
   const { totalInvested, currentValue } = useMemo(() => {
-    return stocks.reduce(
-      (acc, item) => {
-        const { investedAmount, quantity, pricePerUnit } = item;
-        const currentValue = pricePerUnit * quantity;
+    return (
+      stocks?.reduce(
+        (acc, item) => {
+          const { investedAmount, quantity, pricePerUnit } = item;
+          const currentValue = pricePerUnit * quantity;
 
-        return {
-          totalInvested: acc.totalInvested + investedAmount,
-          currentValue: acc.currentValue + currentValue,
-        };
-      },
-      {
-        totalInvested: 0,
-        currentValue: 0,
-      },
+          return {
+            totalInvested: acc.totalInvested + investedAmount,
+            currentValue: acc.currentValue + currentValue,
+          };
+        },
+        {
+          totalInvested: 0,
+          currentValue: 0,
+        },
+      ) ?? { totalInvested: 0, currentValue: 0 }
     );
   }, [stocks]);
 
-  const handleSell = (stock) => {
+  const handleSell = (stock: StockWithPrice) => {
     setSelectedStock(stock);
     setIsModalOpen(true);
   };
 
-  const handleSubmit = async (quantity) => {
+  const handleSubmit = async (quantity: number) => {
+    if (!selectedStock) return;
+
     const sellCost = quantity * selectedStock.pricePerUnit;
     const avgPurchaseCost =
       selectedStock.investedAmount / selectedStock.quantity;
 
     const stockWithQuantity = { ...selectedStock };
-
     stockWithQuantity.quantity -= quantity;
-
     stockWithQuantity.investedAmount -= avgPurchaseCost * quantity;
 
     const payload = {
@@ -57,7 +66,7 @@ export const PortfolioStocks = ({ stocks, balance }) => {
           []),
         ...(stockWithQuantity.quantity > 0 ? [stockWithQuantity] : []),
       ],
-      balance: balance + sellCost,
+      balance: (balance as number) + sellCost,
     };
 
     try {
@@ -70,7 +79,7 @@ export const PortfolioStocks = ({ stocks, balance }) => {
         credentials: "include",
       });
 
-      setUser((prevUser) => ({ ...prevUser, ...payload }));
+      setUser?.((prevUser) => ({ ...prevUser, ...payload }) as User);
       setIsModalOpen(false);
     } catch (error) {
       console.error("An error occuring during sale!", error);

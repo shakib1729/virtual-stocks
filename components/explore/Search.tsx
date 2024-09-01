@@ -8,9 +8,12 @@ import { SearchResults } from "@/components/explore/SearchResults";
 // Utils
 import { searchSymbols } from "@/utils/actions";
 
+// Types
+import type { SymbolSearchResult } from "@/types/stockData";
+
 export const Search = () => {
-  const [input, setInput] = useState("");
-  const [searchResults, setSearchResults] = useState([]);
+  const [input, setInput] = useState<string>("");
+  const [searchResults, setSearchResults] = useState<SymbolSearchResult[]>([]);
 
   const handleSearch = async () => {
     try {

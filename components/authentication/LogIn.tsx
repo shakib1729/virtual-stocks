@@ -1,7 +1,10 @@
 "use client";
 
+// Libs
+import type { MouseEvent } from "react";
+
 export const LogIn = () => {
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event: MouseEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const formValues = Array.from(formData.entries()).reduce(
@@ -9,7 +12,7 @@ export const LogIn = () => {
         acc[key] = value;
         return acc;
       },
-      {},
+      {} as Record<string, FormDataEntryValue>,
     );
 
     const response = await fetch(

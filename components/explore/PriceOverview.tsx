@@ -1,8 +1,21 @@
+// Libs
+import type { MouseEvent } from "react";
+
 // Components
 import { Card } from "@/components/Card";
 
 // Hooks
 import { useUser } from "@/hooks/useUser";
+import { User } from "@/types";
+
+type Props = {
+  symbol?: string;
+  price?: number;
+  change?: number;
+  changePercent?: number;
+  currency?: string;
+  name?: string;
+};
 
 export const PriceOverview = ({
   symbol,
@@ -11,10 +24,12 @@ export const PriceOverview = ({
   changePercent,
   currency,
   name,
-}) => {
+}: Props) => {
   const { user, setUser } = useUser();
 
-  const handlePurchase = async (event) => {
+  const handlePurchase = async (event: MouseEvent<HTMLFormElement>) => {
+    if (!user || !price) return;
+
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const formValues = Array.from(formData.entries()).reduce(
@@ -22,7 +37,7 @@ export const PriceOverview = ({
         acc[key] = value;
         return acc;
       },
-      {},
+      {} as Record<string, FormDataEntryValue>,
     );
 
     const quantity = +(formValues.quantity ?? 0);
@@ -30,7 +45,7 @@ export const PriceOverview = ({
 
     const stockWithQuantity = user.stocks?.find(
       (stock) => stock.symbol === symbol,
-    ) ?? { symbol, quantity: 0, investedAmount: 0 };
+    ) ?? { symbol: symbol as string, quantity: 0, investedAmount: 0 };
 
     stockWithQuantity.quantity += quantity;
     stockWithQuantity.investedAmount += cost;
@@ -40,23 +55,20 @@ export const PriceOverview = ({
         ...(user.stocks?.filter((stock) => stock.symbol !== symbol) ?? []),
         stockWithQuantity,
       ],
-      balance: user.balance - cost,
+      balance: (user.balance as number) - cost,
     };
 
     try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/updateStocksAndBalance`,
-        {
-          method: "POST",
-          body: JSON.stringify(payload),
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
+      await fetch(`${process.env.NEXT_PUBLIC_API_URL}/updateStocksAndBalance`, {
+        method: "POST",
+        body: JSON.stringify(payload),
+        headers: {
+          "Content-Type": "application/json",
         },
-      );
+        credentials: "include",
+      });
 
-      setUser((prevUser) => ({ ...prevUser, ...payload }));
+      setUser?.((prevUser) => ({ ...prevUser, ...payload }) as User);
     } catch (e) {
       console.error("An error occuring during purchase!", e);
     }
@@ -78,7 +90,7 @@ export const PriceOverview = ({
           </span>
         </span>
         <span
-          className={`text-lg xl:text-xl 2xl:text-2xl ${change > 0 ? "text-lime-500" : "text-red-500"}`}
+          className={`text-lg xl:text-xl 2xl:text-2xl ${(change as number) > 0 ? "text-lime-500" : "text-red-500"}`}
         >
           {change} <span>({changePercent}%)</span>
         </span>

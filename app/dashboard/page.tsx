@@ -47,11 +47,11 @@ export default function Home() {
         <div className="row-span-2 xl:row-span-1">
           <PriceOverview
             symbol={symbol}
-            price={priceOverview.c}
-            change={priceOverview.d}
-            changePercent={priceOverview.dp}
-            currency={details.currency}
-            name={details.name}
+            price={priceOverview?.c}
+            change={priceOverview?.d}
+            changePercent={priceOverview?.dp}
+            currency={details?.currency}
+            name={details?.name}
           />
         </div>
         <div className="row-span-2 xl:row-span-3">

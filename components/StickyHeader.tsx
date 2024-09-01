@@ -21,7 +21,7 @@ export const StickyHeader = () => {
   const handleLogOut = async () => {
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/logout`, {
       credentials: "include",
-    }).then(push("/"));
+    }).then(() => push("/"));
   };
 
   const isExplorePage = pathname === "/dashboard";

@@ -1,7 +1,7 @@
 "use client";
 
 // Components
-import { PortfolioStocks } from "@/components/portfolio/PortfolioStocks";
+import StocksPortfolio from "@/components/portfolio";
 
 // Hooks
 import { useUser } from "@/hooks/useUser";
@@ -12,6 +12,6 @@ export default function Home() {
   const portfolioStocks = usePortfolioStocks();
 
   return portfolioStocks && user ? (
-    <PortfolioStocks stocks={portfolioStocks} balance={user.balance} />
+    <StocksPortfolio stocks={portfolioStocks} balance={user.balance} />
   ) : null;
 }
