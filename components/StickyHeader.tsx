@@ -13,6 +13,24 @@ import {
 // Hooks
 import { useUser } from "@/hooks/useUser";
 
+const NavLink = ({
+  href,
+  Icon,
+  title,
+}: {
+  href: string;
+  Icon: typeof CurrencyDollarIcon;
+  title: string;
+}) => (
+  <Link
+    href={href}
+    className="w-32 px-4 py-2 rounded-md text-purple-600 border border-purple-200 hover:border-purple-400 transition duration-200 ease-in-out"
+  >
+    <Icon className="h-5 w-5 inline-block mr-1" />
+    {title}
+  </Link>
+);
+
 export const StickyHeader = () => {
   const { user } = useUser();
   const { push } = useRouter();
@@ -45,6 +63,15 @@ export const StickyHeader = () => {
                 ${balance?.toFixed(2)}
               </span>
             </div>
+            {isExplorePage ? (
+              <NavLink
+                href="/dashboard/portfolio"
+                Icon={ChartBarIcon}
+                title="Portfolio"
+              />
+            ) : (
+              <NavLink href="/dashboard" Icon={GlobeAltIcon} title="Explore" />
+            )}
             <div className="flex items-center space-x-2">
               <UserIcon className="h-5 w-5 text-gray-500" />
               <div className="flex flex-col">
@@ -54,23 +81,6 @@ export const StickyHeader = () => {
                 <span className="text-xs text-gray-500">{email}</span>
               </div>
             </div>
-            {isExplorePage ? (
-              <Link
-                href="/dashboard/portfolio"
-                className="px-4 py-2 rounded-md text-purple-600 border border-purple-200 hover:border-purple-400 transition duration-200 ease-in-out"
-              >
-                <ChartBarIcon className="h-5 w-5 inline-block mr-1" />
-                Portfolio
-              </Link>
-            ) : (
-              <Link
-                href="/dashboard"
-                className="px-4 py-2 rounded-md text-purple-600 border border-purple-200 hover:border-purple-400 transition duration-200 ease-in-out"
-              >
-                <GlobeAltIcon className="h-5 w-5 inline-block mr-1" />
-                Explore
-              </Link>
-            )}
             <button
               className="p-2 rounded-md text-gray-600 hover:bg-gray-100 transition duration-200 ease-in-out"
               onClick={handleLogOut}

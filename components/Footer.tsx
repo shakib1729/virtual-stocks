@@ -1,7 +1,7 @@
 export const Footer = () => (
-  <footer className="fixed bottom-0 right-4">
+  <footer className="fixed bottom-4 right-4">
     <a
-      href="https://github.com/shakib1729"
+      href="https://github.com/shakib1729/virtual-stocks"
       target="_blank"
       rel="noopener noreferrer"
     >
