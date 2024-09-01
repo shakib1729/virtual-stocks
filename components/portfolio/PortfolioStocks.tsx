@@ -22,34 +22,20 @@ export const PortfolioStocks = ({ stocks, balance, setUser }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedStock, setSelectedStock] = useState(null);
 
-  const {
-    totalInvested,
-    currentValue,
-    overallProfitLoss,
-    overallProfitLossPercentage,
-  } = useMemo(() => {
+  const { totalInvested, currentValue } = useMemo(() => {
     return stocks.reduce(
       (acc, item) => {
         const { investedAmount, quantity, pricePerUnit } = item;
         const currentValue = pricePerUnit * quantity;
-        const profitLoss = currentValue - investedAmount;
 
         return {
           totalInvested: acc.totalInvested + investedAmount,
           currentValue: acc.currentValue + currentValue,
-          overallProfitLoss: acc.overallProfitLoss + profitLoss,
-          overallProfitLossPercentage:
-            ((acc.currentValue + currentValue) /
-              (acc.totalInvested + investedAmount) -
-              1) *
-            100,
         };
       },
       {
         totalInvested: 0,
         currentValue: 0,
-        overallProfitLoss: 0,
-        overallProfitLossPercentage: 0,
       }
     );
   }, [stocks]);
@@ -111,8 +97,6 @@ export const PortfolioStocks = ({ stocks, balance, setUser }) => {
           <PortfolioSummary
             totalInvested={totalInvested}
             currentValue={currentValue}
-            overallProfitLoss={overallProfitLoss}
-            overallProfitLossPercentage={overallProfitLossPercentage}
           />
           <StockTable stocks={stocks} onSell={handleSell} />
         </div>
