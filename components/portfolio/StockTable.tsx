@@ -40,7 +40,7 @@ const Row = ({
       className="border-b border-gray-200 hover:bg-pink-50 transition duration-200 ease-in-out"
     >
       <RowItem value={symbol} className="text-left" />
-      <RowItem value={quantity} />
+      <RowItem value={quantity.toFixed(2)} />
       <RowItem value={investedAmount.toFixed(2)} />
       <RowItem value={avgPurchaseCost.toFixed(2)} />
       <RowItem value={pricePerUnit.toFixed(2)} />

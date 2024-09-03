@@ -50,7 +50,7 @@ export const TransactionModal = ({
               Quantity to{" "}
               {isBuying
                 ? `buy (Total: ${totalAmount ? totalAmount.toFixed(2) : 0})`
-                : `sell (max: ${stock.quantity})`}
+                : `sell (max: ${stock.quantity?.toFixed(2)})`}
             </label>
             <input
               type="number"

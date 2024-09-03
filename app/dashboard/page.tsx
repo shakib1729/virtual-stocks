@@ -28,7 +28,7 @@ export default function Home() {
 
   const stockProviderValue = useMemo(
     () => ({ symbol, onSymbolChange }),
-    [symbol, onSymbolChange],
+    [symbol, onSymbolChange]
   );
 
   return (
@@ -40,7 +40,7 @@ export default function Home() {
         <div className="col-span-1 md:col-span-2 xl:col-span-3 row-span-1 flex justify-center items-center">
           <Search />
         </div>
-        {true ? (
+        {symbol ? (
           <>
             <div className="md:col-span-2 row-span-6">
               <Chart

@@ -10,6 +10,9 @@ import {
 } from "@heroicons/react/24/outline";
 import { useRouter } from "next/navigation";
 
+// Constants
+import { INITIAL_BALANCE } from "@/constants";
+
 const INPUT_CLASSNAME =
   "focus:ring-purple-500 focus:border-purple-500 block w-full pl-10 sm:text-sm border-gray-300 rounded-md p-3";
 
@@ -31,7 +34,11 @@ const AuthForm = () => {
       return;
     }
 
-    const payload = { email, password, ...(isRegistering ? { name } : {}) };
+    const payload = {
+      email,
+      password,
+      ...(isRegistering ? { name, balance: INITIAL_BALANCE } : {}),
+    };
 
     try {
       const res = await fetch(
@@ -43,7 +50,7 @@ const AuthForm = () => {
             "Content-Type": "application/json",
           },
           credentials: isRegistering ? undefined : "include",
-        },
+        }
       );
       if (!res.ok) {
         throw new Error("Error occurred");

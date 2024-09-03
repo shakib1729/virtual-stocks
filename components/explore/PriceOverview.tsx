@@ -41,7 +41,7 @@ export const PriceOverview = ({
     }
 
     const stockWithQuantity = user.stocks?.find(
-      (stock) => stock.symbol === symbol,
+      (stock) => stock.symbol === symbol
     ) ?? { symbol: symbol as string, quantity: 0, investedAmount: 0 };
 
     stockWithQuantity.quantity += quantity;
@@ -56,16 +56,24 @@ export const PriceOverview = ({
     };
 
     try {
-      await fetch(`${process.env.NEXT_PUBLIC_API_URL}/updateStocksAndBalance`, {
-        method: "POST",
-        body: JSON.stringify(payload),
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-      });
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/updateStocksAndBalance`,
+        {
+          method: "POST",
+          body: JSON.stringify(payload),
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+        }
+      );
+
+      if (!res.ok) {
+        throw new Error("Error occurred!");
+      }
 
       setUser?.((prevUser) => ({ ...prevUser, ...payload }) as User);
+      setIsModalOpen(false);
     } catch (e) {
       console.error("An error occuring during purchase!", e);
     }

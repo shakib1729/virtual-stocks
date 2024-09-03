@@ -27,9 +27,6 @@ const DETAILS = [
   },
 ];
 
-const DEFAULT_LOGO =
-  "https://static.finnhub.io/logo/87cb30d8-80df-11ea-8951-00000000092a.png";
-
 const convertMillionToBillion = (number: number) => {
   return (number / 1000).toFixed(2);
 };
@@ -43,12 +40,9 @@ export const Details = ({ details }: Props) => {
         Company Details
       </h3>
       <div className="flex items-center justify-center">
-        <Image
-          src={details?.logo ?? DEFAULT_LOGO}
-          width={96}
-          height={96}
-          alt="Company Logo"
-        />
+        {details?.logo ? (
+          <Image src={details.logo} width={96} height={96} alt="Company Logo" />
+        ) : null}
       </div>
       <div className="space-y-3">
         {DETAILS.map(
@@ -72,7 +66,7 @@ export const Details = ({ details }: Props) => {
                 </p>
               </div>
             </div>
-          ),
+          )
         )}
       </div>
     </div>

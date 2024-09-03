@@ -39,7 +39,7 @@ export const StocksPortfolio = ({ stocks, balance }: Props) => {
         {
           totalInvested: 0,
           currentValue: 0,
-        },
+        }
       ) ?? { totalInvested: 0, currentValue: 0 }
     );
   }, [stocks]);
@@ -50,7 +50,7 @@ export const StocksPortfolio = ({ stocks, balance }: Props) => {
   };
 
   const handleSubmit = async (quantity: number) => {
-    if (!selectedStock) return;
+    if (!selectedStock || !stocks) return;
 
     const sellCost = quantity * selectedStock.pricePerUnit;
     const avgPurchaseCost =
@@ -60,24 +60,39 @@ export const StocksPortfolio = ({ stocks, balance }: Props) => {
     stockWithQuantity.quantity -= quantity;
     stockWithQuantity.investedAmount -= avgPurchaseCost * quantity;
 
+    const index = stocks.findIndex(
+      (stock) => stock.symbol === selectedStock.symbol
+    );
+
+    let updatedStocks = [...stocks];
+    if (stockWithQuantity.quantity > 0) {
+      updatedStocks[index] = stockWithQuantity;
+    } else {
+      updatedStocks = updatedStocks.filter(
+        (stock) => stock.symbol !== selectedStock.symbol
+      );
+    }
     const payload = {
-      stocks: [
-        ...(stocks?.filter((stock) => stock.symbol !== selectedStock.symbol) ??
-          []),
-        ...(stockWithQuantity.quantity > 0 ? [stockWithQuantity] : []),
-      ],
+      stocks: updatedStocks,
       balance: (balance as number) + sellCost,
     };
 
     try {
-      await fetch(`${process.env.NEXT_PUBLIC_API_URL}/updateStocksAndBalance`, {
-        method: "POST",
-        body: JSON.stringify(payload),
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-      });
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/updateStocksAndBalance`,
+        {
+          method: "POST",
+          body: JSON.stringify(payload),
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+        }
+      );
+
+      if (!res.ok) {
+        throw new Error("Error occurred!");
+      }
 
       setUser?.((prevUser) => ({ ...prevUser, ...payload }) as User);
       setIsModalOpen(false);
