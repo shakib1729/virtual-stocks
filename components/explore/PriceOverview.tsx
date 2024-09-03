@@ -40,18 +40,29 @@ export const PriceOverview = ({
       return;
     }
 
-    const stockWithQuantity = user.stocks?.find(
-      (stock) => stock.symbol === symbol
-    ) ?? { symbol: symbol as string, quantity: 0, investedAmount: 0 };
+    const stockWithQuantity = {
+      ...(user.stocks?.find((stock) => stock.symbol === symbol) ?? {
+        symbol: symbol as string,
+        quantity: 0,
+        investedAmount: 0,
+      }),
+    };
 
     stockWithQuantity.quantity += quantity;
     stockWithQuantity.investedAmount += cost;
 
+    const index =
+      user.stocks?.findIndex((stock) => stock.symbol === symbol) ?? -1;
+
+    let updatedStocks = [...(user?.stocks ?? [])];
+    if (index >= 0) {
+      updatedStocks[index] = stockWithQuantity;
+    } else {
+      updatedStocks = [...updatedStocks, stockWithQuantity];
+    }
+
     const payload = {
-      stocks: [
-        ...(user.stocks?.filter((stock) => stock.symbol !== symbol) ?? []),
-        stockWithQuantity,
-      ],
+      stocks: updatedStocks,
       balance: (user.balance as number) - cost,
     };
 

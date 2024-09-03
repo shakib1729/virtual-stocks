@@ -31,6 +31,7 @@ export const Search = () => {
 
   const handleClear = () => {
     setInput("");
+    setSearchResults([]);
   };
 
   return (
