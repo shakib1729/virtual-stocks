@@ -1,18 +1,34 @@
-// Components
-import { Card } from "@/components/Card";
+// Libs
+import Image from "next/image";
+import {
+  GlobeAmericasIcon,
+  CalendarIcon,
+  CurrencyYenIcon,
+  BeakerIcon,
+  IdentificationIcon,
+} from "@heroicons/react/24/outline";
 
 // Types
 import type { CompanyDetails } from "@/types/stockData";
 
-const DETAILS_ID_VS_LABEL = {
-  name: "Name",
-  country: "Country",
-  currency: "Currency",
-  exchange: "Exchange",
-  ipo: "IPO Date",
-  marketCapitalization: "Market Capitalization",
-  finnhubIndustry: "Industry",
-} as const;
+const DETAILS = [
+  { id: "name", label: "Name", Icon: IdentificationIcon },
+  { id: "exchange", label: "Exchange", Icon: GlobeAmericasIcon },
+  { id: "ipo", label: "IPO Date", Icon: CalendarIcon },
+  {
+    id: "marketCapitalization",
+    label: "Market Capitalization",
+    Icon: CurrencyYenIcon,
+  },
+  {
+    id: "finnhubIndustry",
+    label: "Industry",
+    Icon: BeakerIcon,
+  },
+];
+
+const DEFAULT_LOGO =
+  "https://static.finnhub.io/logo/87cb30d8-80df-11ea-8951-00000000092a.png";
 
 const convertMillionToBillion = (number: number) => {
   return (number / 1000).toFixed(2);
@@ -22,21 +38,43 @@ type Props = { details?: CompanyDetails };
 
 export const Details = ({ details }: Props) => {
   return (
-    <Card className="overflow-y-scroll">
-      <ul className="w-full h-full flex flex-col justify-between divide-y-1">
-        {Object.keys(DETAILS_ID_VS_LABEL).map((item: string) => (
-          <li key={item} className="flex-1 flex justify-between items-center">
-            <span>
-              {DETAILS_ID_VS_LABEL[item as keyof typeof DETAILS_ID_VS_LABEL]}
-            </span>
-            <span className="font-bold">
-              {item === "marketCapitalization" && details?.[item]
-                ? `${convertMillionToBillion(details[item])}B`
-                : details?.[item as keyof typeof DETAILS_ID_VS_LABEL]}
-            </span>
-          </li>
-        ))}
-      </ul>
-    </Card>
+    <div className="bg-white shadow-md p-6 h-full overflow-y-scroll rounded-lg custom-scrollbar">
+      <h3 className="text-xl font-semibold text-gray-800 mb-3">
+        Company Details
+      </h3>
+      <div className="flex items-center justify-center">
+        <Image
+          src={details?.logo ?? DEFAULT_LOGO}
+          width={96}
+          height={96}
+          alt="Company Logo"
+        />
+      </div>
+      <div className="space-y-3">
+        {DETAILS.map(
+          ({
+            id,
+            label,
+            Icon,
+          }: {
+            id: string;
+            label: string;
+            Icon: typeof IdentificationIcon;
+          }) => (
+            <div key={id} className="flex items-center space-x-3">
+              <Icon className="h-5 w-5 text-gray-400" />
+              <div>
+                <p className="text-sm font-medium text-gray-500">{label}</p>
+                <p className="text-base font-semibold text-gray-900">
+                  {id === "marketCapitalization" && details?.[id]
+                    ? `${convertMillionToBillion(details[id])}B`
+                    : details?.[id as keyof CompanyDetails]}
+                </p>
+              </div>
+            </div>
+          ),
+        )}
+      </div>
+    </div>
   );
 };

@@ -4,7 +4,7 @@ import { useState, useMemo } from "react";
 // Components
 import { PortfolioSummary } from "@/components/portfolio/PortfolioSummary";
 import { StockTable } from "@/components/portfolio/StockTable";
-import { SellModal } from "@/components/portfolio/SellModal";
+import { TransactionModal } from "@/components/TransactionModal";
 
 // Hooks
 import { useUser } from "@/hooks/useUser";
@@ -98,14 +98,14 @@ export const StocksPortfolio = ({ stocks, balance }: Props) => {
         </div>
       </div>
 
-      {selectedStock && (
-        <SellModal
+      {selectedStock && isModalOpen ? (
+        <TransactionModal
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
           stock={selectedStock}
           onSubmit={handleSubmit}
         />
-      )}
+      ) : null}
       <style jsx global>{`
         @keyframes fadeInUp {
           from {

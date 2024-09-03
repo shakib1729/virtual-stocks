@@ -9,7 +9,6 @@ import {
 } from "recharts";
 
 // Components
-import { Card } from "@/components/Card";
 import { ChartFilter } from "@/components/explore/chart/ChartFilter";
 
 // Constants
@@ -28,7 +27,7 @@ export const Chart = ({
   handleResolutionChange,
 }: Props) => {
   return (
-    <Card>
+    <div className="bg-white rounded-lg shadow-md p-6 mb-6 relative h-full w-full">
       <ul className="flex absolute top-2 right-2 z-40">
         {RESOLUTIONS.map((item) => {
           return (
@@ -53,13 +52,13 @@ export const Chart = ({
                 stopColor="rgb(199 210 254)"
                 stopOpacity={0.8}
               />
-              <stop offset="95%" stopColor="rgb(199 210 254)" stopOpacity={0} />
+              <stop offset="95%" stopColor="rgb(168 85 247)" stopOpacity={0} />
             </linearGradient>
           </defs>
           <Area
             type="monotone"
             dataKey="value"
-            stroke="#312e81"
+            stroke="#600FA6"
             fillOpacity={1}
             strokeWidth={0.5}
             fill="url(#chartColor)"
@@ -69,6 +68,6 @@ export const Chart = ({
           <YAxis domain={["dataMin", "dataMax"]} />
         </AreaChart>
       </ResponsiveContainer>
-    </Card>
+    </div>
   );
 };

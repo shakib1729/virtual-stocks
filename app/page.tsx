@@ -1,11 +1,5 @@
-import { Register } from "@/components/authentication/Register";
-import { LogIn } from "@/components/authentication/LogIn";
+import AuthForm from "@/components/authentication/AuthForm";
 
 export default function Home() {
-  return (
-    <div className="flex gap-3">
-      <Register />
-      <LogIn />
-    </div>
-  );
+  return <AuthForm />;
 }

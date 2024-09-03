@@ -2,6 +2,7 @@
 
 // Components
 import StocksPortfolio from "@/components/portfolio";
+import { Loader } from "@/components/Loader";
 
 // Hooks
 import { useUser } from "@/hooks/useUser";
@@ -13,5 +14,7 @@ export default function Home() {
 
   return portfolioStocks && user ? (
     <StocksPortfolio stocks={portfolioStocks} balance={user.balance} />
-  ) : null;
+  ) : (
+    <Loader />
+  );
 }

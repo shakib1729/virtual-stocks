@@ -31,7 +31,7 @@ export default function Layout({ children }: { children: ReactNode }) {
   const userContextValue = useMemo(() => ({ user, setUser }), [user, setUser]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-100/70 to-pink-100/70">
+    <div className="h-screen bg-gradient-to-br from-purple-100/70 to-pink-100/70">
       <UserContext.Provider value={userContextValue}>
         <StickyHeader />
         {user ? children : null}

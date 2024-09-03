@@ -19,7 +19,8 @@ type Props = { totalInvested: number; currentValue: number };
 
 export const PortfolioSummary = ({ totalInvested, currentValue }: Props) => {
   const overallProfitLoss = currentValue - totalInvested;
-  const overallProfitLossPercentage = (overallProfitLoss / totalInvested) * 100;
+  const overallProfitLossPercentage =
+    totalInvested > 0 ? (overallProfitLoss / totalInvested) * 100 : 0;
 
   return (
     <div className="bg-gradient-to-r from-purple-600 to-pink-500 text-white p-8 rounded-lg shadow-lg">

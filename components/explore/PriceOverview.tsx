@@ -1,19 +1,22 @@
 // Libs
-import type { MouseEvent } from "react";
+import { useState } from "react";
+import {
+  ArrowTrendingUpIcon,
+  ArrowTrendingDownIcon,
+} from "@heroicons/react/24/outline";
 
 // Components
-import { Card } from "@/components/Card";
+import { TransactionModal } from "@/components/TransactionModal";
 
 // Hooks
 import { useUser } from "@/hooks/useUser";
-import { User } from "@/types";
+import type { User } from "@/types";
 
 type Props = {
   symbol?: string;
   price?: number;
   change?: number;
   changePercent?: number;
-  currency?: string;
   name?: string;
 };
 
@@ -22,26 +25,20 @@ export const PriceOverview = ({
   price,
   change,
   changePercent,
-  currency,
   name,
 }: Props) => {
   const { user, setUser } = useUser();
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
-  const handlePurchase = async (event: MouseEvent<HTMLFormElement>) => {
-    if (!user || !price) return;
+  const handlePurchase = async (quantity: number) => {
+    if (!user?.balance || !price) return;
 
-    event.preventDefault();
-    const formData = new FormData(event.currentTarget);
-    const formValues = Array.from(formData.entries()).reduce(
-      (acc, [key, value]) => {
-        acc[key] = value;
-        return acc;
-      },
-      {} as Record<string, FormDataEntryValue>,
-    );
-
-    const quantity = +(formValues.quantity ?? 0);
     const cost = quantity * price;
+
+    if (cost > user.balance) {
+      alert("You don't have enough balance!");
+      return;
+    }
 
     const stockWithQuantity = user.stocks?.find(
       (stock) => stock.symbol === symbol,
@@ -74,39 +71,56 @@ export const PriceOverview = ({
     }
   };
 
+  const isPositiveChange = change && change >= 0;
+
   return (
-    <Card>
-      <span className="absolute left-4 top-4 text-neutral-400 text-lg xl:text-xl 2xl:text-2xl">
-        {symbol}
-      </span>
-      <span className="absolute left-4 top-4 text-neutral-400 text-lg xl:text-xl 2xl:text-2xl">
-        {name}
-      </span>
-      <div className="w-full h-full flex items-center justify-around xl:mt-3">
-        <span className="text-2xl xl:text-4xl 2xl:text-5xl flex items-center">
-          ${price}
-          <span className="text-xl xl:text-xl 2xl:text-2xl text-neutral-400 m-2">
-            {currency}
-          </span>
-        </span>
-        <span
-          className={`text-lg xl:text-xl 2xl:text-2xl ${(change as number) > 0 ? "text-lime-500" : "text-red-500"}`}
-        >
-          {change} <span>({changePercent}%)</span>
-        </span>
-        <form onSubmit={handlePurchase}>
+    <>
+      <div className="bg-white rounded-lg shadow-md p-6 mb-6 h-full">
+        <div className="flex justify-between items-center mb-4">
           <div>
-            <label htmlFor="quantity">Quantity</label>
-            <input
-              id="quantity"
-              name="quantity"
-              type="number"
-              placeholder="Enter Quantity"
-            />
+            <h3 className="text-xl font-semibold text-gray-800">{name}</h3>
+            <p className="text-sm text-gray-500">{symbol}</p>
           </div>
-          <button type="submit">Buy</button>
-        </form>
+          <button
+            onClick={() => setIsModalOpen(true)}
+            className="bg-gradient-to-r from-purple-400 to-pink-400 text-white font-bold py-2 px-4 rounded-md transition duration-200 ease-in-out hover:from-purple-500 hover:to-pink-500 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-opacity-50"
+          >
+            Buy
+          </button>
+        </div>
+        <div className="flex justify-between items-end">
+          <div>
+            <p className="text-3xl font-bold text-gray-900">
+              ${price?.toFixed(2)}
+            </p>
+          </div>
+          <div className="text-right">
+            <p
+              className={`text-lg font-semibold ${isPositiveChange ? "text-green-600" : "text-red-600"}`}
+            >
+              {isPositiveChange ? "+" : ""}
+              {change?.toFixed(2)} ({changePercent?.toFixed(2)}%)
+            </p>
+            <div className="flex items-center justify-end">
+              {isPositiveChange ? (
+                <ArrowTrendingUpIcon className="h-5 w-5 text-green-600 mr-1" />
+              ) : (
+                <ArrowTrendingDownIcon className="h-5 w-5 text-red-600 mr-1" />
+              )}
+              <span className="text-sm text-gray-500">Today</span>
+            </div>
+          </div>
+        </div>
       </div>
-    </Card>
+      {isModalOpen && symbol && price ? (
+        <TransactionModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          stock={{ symbol, pricePerUnit: price }}
+          onSubmit={handlePurchase}
+          isBuying
+        />
+      ) : null}
+    </>
   );
 };

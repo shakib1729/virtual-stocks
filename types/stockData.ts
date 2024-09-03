@@ -23,6 +23,7 @@ export type CompanyDetails = {
   ipo: string;
   marketCapitalization: number;
   finnhubIndustry: string;
+  logo: string;
 };
 
 // https://finnhub.io/docs/api/symbol-search

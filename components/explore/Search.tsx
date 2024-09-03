@@ -34,7 +34,7 @@ export const Search = () => {
   };
 
   return (
-    <div className="flex items-center my-4 border-2 rounded-md relative z-50 w-96 bg-white border-neutral-200">
+    <div className="relative flex items-center border-2 rounded-md w-96 bg-white border-neutral-200">
       <input
         type="text"
         value={input}
@@ -57,7 +57,7 @@ export const Search = () => {
 
       <button
         onClick={handleSearch}
-        className="h-8 w-8 bg-indigo-600 rounded-md flex justify-center items-center m-1 p-2 transition duration-300 hover:ring-2 ring-indigo-400"
+        className="h-8 w-8 bg-gradient-to-r from-purple-400 to-pink-400 rounded-md flex justify-center items-center m-1 p-2 transition duration-100 hover:ring-2 ring-purple-400"
       >
         <MagnifyingGlassIcon className="h-4 w-4 fill-gray-100" />
       </button>

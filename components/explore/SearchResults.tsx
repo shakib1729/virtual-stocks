@@ -16,12 +16,12 @@ export const SearchResults = ({ results, setSearchResults }: Props) => {
   const { onSymbolChange } = useContext(StockContext);
 
   return (
-    <ul className="absolute top-12 border-2 w-full rounded-md h-64 overflow-y-scroll bg-white border-neutral-200 custom-scrollbar">
+    <ul className="absolute top-12 border-2 w-full rounded-md h-64 overflow-y-scroll bg-white border-neutral-200 custom-scrollbar z-50">
       {results.map((item) => {
         return (
           <li
             key={item.symbol}
-            className="cursor-pointer p-4 m-2 flex items-center justify-between rounded-md hover:bg-indigo-200 transition duration-300"
+            className="cursor-pointer p-4 m-2 flex items-center justify-between rounded-md hover:bg-purple-200 transition duration-300"
             onClick={() => {
               onSymbolChange?.(item.symbol);
               setSearchResults([]);

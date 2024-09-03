@@ -1,5 +1,6 @@
 // Libs
 import type { ReactNode } from "react";
+import { DocumentMagnifyingGlassIcon } from "@heroicons/react/24/outline";
 
 // Types
 import type { StockWithPrice } from "@/types";
@@ -84,7 +85,21 @@ export const StockTable = ({ stocks, onSell }: Props) => (
           </tr>
         </thead>
         <tbody>
-          {stocks?.map((item) => <Row item={item} onSell={onSell} />)}
+          {!stocks?.length ? (
+            <tr>
+              <td colSpan={8}>
+                <div className="flex flex-col items-center justify-center py-16">
+                  <DocumentMagnifyingGlassIcon className="h-24 w-24 text-gray-400 mb-4" />
+                  <p className="text-center text-gray-500 text-lg">
+                    No stocks in your portfolio. Start exploring and add some
+                    stocks!
+                  </p>
+                </div>
+              </td>
+            </tr>
+          ) : (
+            stocks.map((item) => <Row item={item} onSell={onSell} />)
+          )}
         </tbody>
       </table>
     </div>
