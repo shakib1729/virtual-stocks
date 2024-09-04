@@ -98,7 +98,9 @@ export const StockTable = ({ stocks, onSell }: Props) => (
               </td>
             </tr>
           ) : (
-            stocks.map((item) => <Row item={item} onSell={onSell} />)
+            stocks.map((item) => (
+              <Row key={item.symbol} item={item} onSell={onSell} />
+            ))
           )}
         </tbody>
       </table>
