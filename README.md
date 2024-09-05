@@ -5,7 +5,8 @@
   <p align="center">
     <br />
     Visit:  https://virtual-stocks-sha.vercel.app
-    <br />
+<br />
+    Demo: https://youtu.be/X02m-iZ_EXA
     <br />
     <a href="https://github.com/shakib1729/virtual-stocks/issues/new">Report Bug</a>
   </p>
@@ -34,13 +35,11 @@
 
 ### Project Overview
 
-- Play with virtual stocks.
-
+- Play with virtual stocks:
   - Users on registering get a $1000 credit using which they can purchase stocks.
   - Learn basic stock trading without using real money.
 
 - Portfolio summary:
-
   - Get an overview of the entire portfolio, including individual profit/loss and overall profit/loss.
 
 - Explore stocks:
@@ -77,7 +76,7 @@ This web app is developed using the following:
   - **Spring Security** handles the authentication flow.
   - Exposed the following endpoints for handling authentication: `/register`, `/authenticate`, `/logout`
   - On registering, the details of the user (name, email, password (encrypted), balance) are stored in a **MySQL** database.
-  - On authenticating (log in), the server verifies the credentials and returns a [JSON Web Token (JWT)](https://jwt.io/) as a **Cookie**.
+  - During authentication (Log in), the server verifies the credentials and returns a [JSON Web Token (JWT)](https://jwt.io/) as a **Cookie**.
   - This cookie has the following properties:
     - `httpOnly`: Can't be accessed by JavaScript
     - `secure`: Only sent to the server with an encrypted request over the HTTPS protocol
@@ -86,11 +85,11 @@ This web app is developed using the following:
       <img width="1529" alt="image" src="https://github.com/user-attachments/assets/c7844ec8-e1bc-42c5-b570-4b52ee98c0a2">
   - In all subsequence calls to the server, the browser automatically attaches this Cookie.
   - For every request on the server, we extract the subject (user) from the Cookie and fetch/store the data from/to the database accordingly.
-  - On log out, the server resets the cookie on the client side by sending a cookie with all the same properties but expiring immediately.
+  - On log out, the server resets the cookie on the client side by sending a cookie with the same properties but expiring immediately.
   - Encoded/Decoded value of Cookie on [jwt.io](https://jwt.io/):
     <img width="1237" alt="image" src="https://github.com/user-attachments/assets/031804af-d248-4cff-9d78-9312bae58b76">
 
-- Explore stocks:
+- **Explore stocks**
 
   - The usage of external APIs for stock data (Finnhub and Alpha Vantage) is handled by **Server Actions** in **Next.js**.
   - Using the following external APIs:
@@ -100,12 +99,12 @@ This web app is developed using the following:
     - Past daily, weekly, monthly time series data: https://www.alphavantage.co/documentation
   - Plotting the past trends using `AreaChart` from **Recharts**: https://recharts.org/en-US/api/AreaChart
 
-- Purchase/Sell stocks:
+- **Purchase/Sell stocks**
 
   - User enters the quantity of the stock to purchase/sell.
   - On submission, we send the updated `stocks[]` and `balance` of the user to the server endpoint `/updateStocksAndBalance` which then stores it in the database.
 
-- Stocks Portfolio:
+- **Stocks Portfolio**
   - As soon the user logs in, we fetch user details (name, email, balance, stocks) using the `/user` endpoint in the `layout` file of the `dashboard`.
   - Then for each stock in the portfolio, we fetch the current price using the external API.
   - Then calculate individual and overall profit/loss and display them accordingly.
