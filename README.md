@@ -8,6 +8,8 @@
 <br />
     Demo: https://youtu.be/X02m-iZ_EXA
     <br />
+    <a href="https://github.com/shakib1729/stocks-api">Backend Repo (Java with Spring)</a>
+    <br />
     <a href="https://github.com/shakib1729/virtual-stocks/issues/new">Report Bug</a>
   </p>
 </p>
