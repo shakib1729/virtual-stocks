@@ -58,7 +58,7 @@
 
 This web app is developed using the following:
 
-- Frontend (with some route handling via `Server Actions`): [Next.js](https://nextjs.org/) (based on [React](https://react.dev/))
+- Frontend (with some API route handling through `Server Actions`): [Next.js](https://nextjs.org/) (based on [React](https://react.dev/))
 - Backend: [Spring Boot](https://spring.io/projects/spring-boot) (with [Spring Security](https://spring.io/projects/spring-security))
 - Database: [MySQL](https://www.mysql.com/)
 - Deployment:
@@ -69,9 +69,9 @@ This web app is developed using the following:
   - Past trends: [Alpha Vantage](https://www.alphavantage.co/documentation/)
 - Additional libraries/packages used: [Java JWT](https://github.com/jwtk/jjwt), [Tailwind](https://tailwindcss.com/), [Recharts](https://recharts.org/en-US), [Hero Icons](https://www.npmjs.com/package/@heroicons/react)
 
-### Workflow:
+### Workflow
 
-- **Authentication**
+#### Authentication
 
   - **Spring Security** handles the authentication flow.
   - Exposed the following endpoints for handling authentication: `/register`, `/authenticate`, `/logout`
@@ -89,7 +89,7 @@ This web app is developed using the following:
   - Encoded/Decoded value of Cookie on [jwt.io](https://jwt.io/):
     <img width="1237" alt="image" src="https://github.com/user-attachments/assets/031804af-d248-4cff-9d78-9312bae58b76">
 
-- **Explore stocks**
+#### Explore stocks
 
   - The usage of external APIs for stock data (Finnhub and Alpha Vantage) is handled by **Server Actions** in **Next.js**.
   - Using the following external APIs:
@@ -99,14 +99,14 @@ This web app is developed using the following:
     - Past daily, weekly, monthly time series data: https://www.alphavantage.co/documentation
   - Plotting the past trends using `AreaChart` from **Recharts**: https://recharts.org/en-US/api/AreaChart
 
-- **Purchase/Sell stocks**
+#### Purchase/Sell stocks
 
   - User enters the quantity of the stock to purchase/sell.
   - On submission, we send the updated `stocks[]` and `balance` of the user to the server endpoint `/updateStocksAndBalance` which then stores it in the database.
 
-- **Stocks Portfolio**
+#### Stocks Portfolio
   - As soon the user logs in, we fetch user details (name, email, balance, stocks) using the `/user` endpoint in the `layout` file of the `dashboard`.
-  - Then for each stock in the portfolio, we fetch the current price using the external API.
+  - For each stock in the portfolio, we fetch the current price using the external API.
   - Then calculate individual and overall profit/loss and display them accordingly.
 
 ### Database Schema
@@ -163,7 +163,7 @@ To set up locally, follow these steps:
    ```sh
    git clone https://github.com/shakib1729/stocks-api.git
    ```
-2. Create `.env.properties` in the root directory:
+2. Create `.env.properties` in the root directory (change `JWT_SECRET_KEY` for your usage):
    ```
    JWT_SECRET_KEY=824ADC45D2D8A818A32E7AEE5FF34B322F10E64E0A8C2Z87C12AF74ABD8X2D9E
    CORS_ORIGIN=http://localhost:3000
